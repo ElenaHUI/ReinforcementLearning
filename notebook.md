@@ -1,4 +1,4 @@
-# Basic Concepts 基础概念
+# 1.Basic Concepts 基础概念
 
 - State：状态信息
 
@@ -17,11 +17,11 @@
 - **trajectory：**state-action-reward chain
 - **return：**回报， 沿着trajectory所得到的reward总和
 
-![image-20250228100446443](C:\Users\18035\AppData\Roaming\Typora\typora-user-images\image-20250228100446443.png)
+![image-20250304192430291](assets/image-20250304192430291.png)
 
 - discounted return：为了解决奖励 无法终止的问题引入，$$\gamma$$越大越远视，越小越近视
 
-![image-20250228100734484](C:\Users\18035\AppData\Roaming\Typora\typora-user-images\image-20250228100734484.png)
+![image-20250228100734484](assets/image-20250228100734484.png)
 
  
 
@@ -48,7 +48,7 @@
 
   当policy确定时就变成了Markov process
 
-# Bellman Equation 贝尔曼公式
+# 2.Bellman Equation 贝尔曼公式
 
 ## State Value
 
@@ -63,7 +63,7 @@ Bellman公式的基本形式可以用以下方程表示：
 
 推导过程暂略
 
-![image-20250228114559630](C:\Users\18035\AppData\Roaming\Typora\typora-user-images\image-20250228114559630.png)
+![image-20250228114559630](assets/image-20250228114559630.png)
 
 #### 对于状态值函数 $V(s)$：
 $$
@@ -73,7 +73,7 @@ $$
 - $V(s)$：表示从状态 $s$ 开始，智能体能够获得的期望回报。
 - $a$：在状态 $s$ 下采取的动作。
 - $R(s, a)$：从状态 $s$ 采取动作 $a$ 后获得的即时奖励。
-- $\gamma$：折扣因子（$0 \leq \gamma < 1$），表示未来奖励的重要性。
+- $\gamma$：折扣因子（$0 \leq \gamma < 1$），表示未来奖励的重要性。**当折扣因子越小则策略越短视**
 - $P(s'|s, a)$：状态转移概率，表示从状态 $s$ 采取动作 $a$ 后转移到状态 $s'$ 的概率。
 - $s'$：可能的下一状态。
 
@@ -83,22 +83,42 @@ Q(s, a) = R(s, a) + \gamma \sum_{s'} P(s'|s, a) \max_{a'} Q(s', a')
 $$
 - $Q(s, a)$：表示从状态 $s$ 开始，采取动作 $a$ 后，能获得的最大期望回报。
 
-### 2. Bellman方程的应用
+# 3.Bellman Optimal Equation（BOE） 
 
-Bellman公式在强化学习中的核心作用是帮助智能体估计一个状态或状态-动作对的“价值”。通过不断地更新和计算状态值函数或动作值函数，智能体可以逐步改进其决策策略，以实现最大化累积回报。
+## 公式表示
 
-#### 动态规划中的应用：
-在动态规划（例如价值迭代或策略迭代）中，Bellman公式用来迭代地更新每个状态的价值，直到收敛为止。
+### 1. 状态值函数形式
+$$
+V^*(s) = \max_{a \in \mathcal{A}} \left[ \mathcal{R}(s,a) + \gamma \sum_{s' \in \mathcal{S}} \mathcal{P}(s'|s,a) V^*(s') \right]
+$$
 
-#### Q-learning中的应用：
-在Q-learning等强化学习算法中，Bellman公式也用于更新动作值函数，从而在没有模型的情况下学习最优策略。
+### 2. 动作值函数形式
+$$
+Q^*(s,a) = \mathcal{R}(s,a) + \gamma \sum_{s' \in \mathcal{S}} \mathcal{P}(s'|s,a) \max_{a' \in \mathcal{A}} Q^*(s',a')
+$$
 
-### 3. Bellman方程的直观理解
+---
 
-- **即时奖励** $R(s, a)$：智能体在当前状态下采取某个动作后所获得的奖励。
-- **未来奖励的折扣**：由于未来奖励的不确定性，我们将未来的奖励乘以折扣因子 $\gamma$ 进行折算。
-- **最优策略的选择**：Bellman方程中的最大值操作（$\max_a$）表示智能体总是选择一个能够最大化当前状态下期望回报的动作。
+## 符号说明
+- $V^*(s)$: 状态 $s$ 的最优状态值函数
+- $Q^*(s,a)$: 状态-动作对 $(s,a)$ 的最优动作值函数
+- $\mathcal{R}(s,a)$: 即时奖励函数
+- $\mathcal{P}(s'|s,a)$: 状态转移概率
+- $\gamma$: 折扣因子
+- $\mathcal{S}$, $\mathcal{A}$: 状态空间和动作空间
 
-通过不断地执行这种递归计算，智能体能够逐步逼近最优策略，使得其在长期内获得最大化的总奖励。
+# 4.值迭代与策略迭代
 
-来评估策略的优劣，帮助智能体在复杂的决策过程中做出最优选择。
+1.值迭代算法
+
+![image-20250305185227854](assets/image-20250305185227854.png)
+
+ 一个例子
+
+![image-20250305210730453](assets/image-20250305210730453.png)
+
+![image-20250305210751323](assets/image-20250305210751323.png)
+
+2.策略迭代
+
+![image-20250305215219915](assets/image-20250305215219915.png)
